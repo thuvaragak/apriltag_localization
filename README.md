@@ -2,7 +2,7 @@
 
 1. Install ROS2 gazebo & apriltag dependencies and clone https://github.com/blackcoffeerobotics/bcr_bot in your ros2 workspace.
 
-2. Clone this repo and Replace the world & bcr_bot urdf files with respect to the original files in bcr_bot package  & build it. 
+2. Clone this repo and replace the world & bcr_bot urdf files with respect to the original files in the bcr_bot package  & build it. 
 
 3. Launch the robot and run:
 ```
@@ -21,5 +21,5 @@ ros2 run fusing_sensors robot_tag_dist
  🔹 Used Euclidean distance to determine the nearest point to the robot.
  🔹 Overlaid results on the camera image for visual interpretation with color-coded feedback.
 
-### If any doubts, contact me at thuvaraga.krishnarajah@gmail.com
+###### If any doubts, contact me at thuvaraga.krishnarajah@gmail.com
 
