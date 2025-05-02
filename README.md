@@ -21,5 +21,8 @@ ros2 run fusing_sensors robot_tag_dist
  🔹 Used Euclidean distance to determine the nearest point to the robot.
  🔹 Overlaid results on the camera image for visual interpretation with color-coded feedback.
 
+ ##### It is part of my robotics perception project focused on AprilTag-based localization using ROS 2, OpenCV, and LiDAR–Camera calibration.
+
 ###### If any doubts, contact me at thuvaraga.krishnarajah@gmail.com
+
 
