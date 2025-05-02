@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<robot name="velodyne_lidar_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Define the base link of the robot -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Define the Velodyne LiDAR sensor -->
+  <link name="velodyne_lidar">
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Joint to attach the Velodyne LiDAR to the base link -->
+  <joint name="velodyne_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="velodyne_lidar"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/> <!-- Adjust position and orientation as needed -->
+  </joint>
+
+  <!-- Gazebo plugin for the Velodyne LiDAR -->
+  <gazebo reference="velodyne_lidar">
+    <sensor type="gpu_ray" name="velodyne_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples> <!-- Number of samples per scan -->
+            <resolution>1.0</resolution>
+            <min_angle>-3.14159</min_angle> <!-- -180 degrees -->
+            <max_angle>3.14159</max_angle> <!-- +180 degrees -->
+          </horizontal>
+          <vertical>
+            <samples>16</samples> <!-- Number of vertical beams -->
+            <resolution>1.0</resolution>
+            <min_angle>-0.261799</min_angle> <!-- -15 degrees -->
+            <max_angle>0.261799</max_angle> <!-- +15 degrees -->
+          </vertical>
+        </scan>
+        <range>
+          <min>0.1</min> <!-- Minimum range in meters -->
+          <max>100.0</max> <!-- Maximum range in meters -->
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_velodyne_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <namespace>/</namespace>
+          <remapping>~/out:=velodyne_points</remapping>
+        </ros>
+        <output_type>sensor_msgs/PointCloud2</output_type>
+        <frame_name>velodyne_lidar</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>
